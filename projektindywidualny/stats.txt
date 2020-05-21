@@ -1,0 +1,23 @@
+nie edytuj! 
+nazwa profesji:koszt
+PROFESSIONS_LIST
+Mage:100
+Warrior:50
+Ork:2000
+STOP
+
+STATS
+Mage
+hp_max:1
+mana_max:2
+ad:3
+STOP
+Warrior
+ad:4
+hp_max:5
+mana_max:6
+STOP
+Ork:
+hp_max:7
+mana_max:8
+STOP
