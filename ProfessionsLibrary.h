@@ -16,7 +16,7 @@ class ProfessionsLibrary {
 	std::vector<std::pair <std::string, int>> professionsNamesAndCost;
 
 
-	std::vector<std::pair <std::string,std::vector< std::pair <std::string,int>>>> professionsNamesAndData; //stary sposob, usunac jak nowy okaze sie ok
+	std::vector<std::pair <std::string,std::vector< std::pair <std::string,double>>>> professionsNamesAndData; //stary sposob, usunac jak nowy okaze sie ok
 	
 	
 	std::map <int, std::map<int, double >> professionsConfig; //mapa wszystkich statow profesji zczytana z pliku

@@ -124,21 +124,33 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="GameHandler.cpp" />
-    <ClCompile Include="Mage.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="Player.cpp" />
     <ClCompile Include="Profession.cpp" />
     <ClCompile Include="ProfessionsFactory.cpp" />
     <ClCompile Include="ProfessionsFactory.h" />
     <ClCompile Include="ProfessionsLibrary.cpp" />
+    <ClCompile Include="professions\Archer.cpp" />
+    <ClCompile Include="professions\Catcher.cpp" />
+    <ClCompile Include="professions\Druid.cpp" />
+    <ClCompile Include="professions\Mage.cpp" />
+    <ClCompile Include="professions\Pope.cpp" />
+    <ClCompile Include="professions\Sniper.cpp" />
+    <ClCompile Include="professions\Warrior.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="enums.h" />
     <ClInclude Include="GameHandler.h" />
-    <ClInclude Include="Mage.h" />
     <ClInclude Include="Player.h" />
     <ClInclude Include="Profession.h" />
     <ClInclude Include="ProfessionsLibrary.h" />
+    <ClInclude Include="professions\Archer.h" />
+    <ClInclude Include="professions\Catcher.h" />
+    <ClInclude Include="professions\Druid.h" />
+    <ClInclude Include="professions\Mage.h" />
+    <ClInclude Include="professions\Pope.h" />
+    <ClInclude Include="professions\Sniper.h" />
+    <ClInclude Include="professions\Warrior.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

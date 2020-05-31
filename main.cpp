@@ -6,9 +6,15 @@
 
 
 
+
 int main()
 
 {
+
+
+	//std::cout << "\033[F";
+	//std::cout << "\x1b[A";
+	//std::cout << "\x1b[A";
 
 	GameHandler g;
 	g.manageGame();

@@ -6,7 +6,7 @@ void ProfessionsLibrary::loadDataFromFile()
 
 	
 	std::ifstream file("stats.txt");
-	if (file)
+	if (file)// TODO: zabezpieczenie
 	{
 		professionsData << file.rdbuf();
 
@@ -26,10 +26,10 @@ void ProfessionsLibrary::findNamesAndCosts()
 	std::string profData = professionsData.str().substr(startIndex + startList.size(), endIndex-startList.size()-startIndex);
 	std::istringstream profDataStream(profData);
 	std::string line;
-	std::cout << profData;
+	//std::cout << profData;
 	while (std::getline(profDataStream, line))
 	{
-		std::cout << 0;
+		//std::cout << 0;
 		int temp = line.find(":");
 		if (line.size() > 0)
 		{
@@ -38,7 +38,7 @@ void ProfessionsLibrary::findNamesAndCosts()
 		}
 		
 	}
-
+	//displayUnitsAndCosts();
 
 
 }
@@ -49,17 +49,20 @@ void ProfessionsLibrary::setupProfessionsStats()
 	int firstIndex = professionsData.str().find(firstName);
 	for (auto prof : professionsNamesAndCost)
 	{
-	//	std::cout << "NEWFOR: " << prof.first << std::endl;
+		//std::cout << "NEWFOR: " << prof.first << std::endl;
 		std::string startList = prof.first;
 		std::string stop = "STOP";
 		int startIndex = professionsData.str().find(startList,firstIndex);
+
+
 		int endIndex = professionsData.str().find(stop, startIndex+startList.size());
 
 		std::string profData = professionsData.str().substr(startIndex + startList.size(), endIndex - startIndex - startList.size());
 		std::istringstream profDataStream(profData);
+	//	std::cout << profData;
 		std::string line;
-		std::cout << profData;
-		std::vector<std::pair<std::string, int>> tempVect;
+	//	std::cout << profData;
+		std::vector<std::pair<std::string, double>> tempVect;
 
 
 		tempVect.clear();
@@ -68,23 +71,26 @@ void ProfessionsLibrary::setupProfessionsStats()
 
 		while (std::getline(profDataStream, line))
 		{
-			std::cout << " ";
+			//std::cout << " ";
 			int temp = line.find(":");
 			if (temp > 0)
 			{
 				std::string statName = line.substr(0, temp);
-				tempVect.push_back(std::make_pair(statName, std::stoi(line.substr(temp + 1))));
-			//	std::cout << statName << " " << std::stoi(line.substr(temp + 1) )<< "\n";
-				currentProfStats[convertStats(statName)] = std::stoi(line.substr(temp + 1));
+				tempVect.push_back(std::make_pair(statName, std::stod(line.substr(temp + 1))));// chyba wyjebac
+		//		std::cout << statName << " readed: " << std::stod(line.substr(temp + 1) )<< "\n";
+				currentProfStats[convertStats(statName)] = std::stod(line.substr(temp + 1));
+			//	std::cout << currentProfStats[convertStats(statName)] << " <-saved\n";
 			}
 
 		}
-		professionsNamesAndData.push_back(std::make_pair(prof.first,tempVect));
+		//professionsNamesAndData.push_back(std::make_pair(prof.first,tempVect));
 		professionsConfig[convertProf(prof.first)] = currentProfStats;
+//		std::cout << "\"" << prof.first << "\""<< convertProf(prof.first)<<"\n";
 		currentProfStats.clear();
-	
+		
 
 	}
+	//displayStats();
 	/*
 	std::cout << "chuj1";
 	for (auto v1 : professionsNamesAndData)
@@ -124,14 +130,28 @@ void ProfessionsLibrary :: displayStats()
 
 std::map<int, double > ProfessionsLibrary::getProfessionData(int _id)
 {
-	return professionsConfig[_id];
+	int i = 0;
+	for (auto confData : professionsConfig)
+	{
+//	std::cout << "Prof id: "<<confData.first<<" AR: "<<confData.second[AR]<<"\n";
+		if(confData.first==_id) return professionsConfig[i];
+		i++;
+
+		//zabez
+	}
+//	system("sleep");
 }
 
 std::string ProfessionsLibrary::getProfName(int _id)
 {
 	if (_id == MAGE) return "Mage";
+	if (_id == SNIPER) return "Sniper";
 	if (_id == WARRIOR) return "Warrior";
-	if (_id == POPE) return "Ork";
+	if (_id == POPE) return "Pope";
+	if (_id == ARCHER) return "Archer";
+	if (_id == DRUID) return "Druid";
+	if (_id == CATCHER) return "Catcher";
+	throw "Invalid_ID";
 }
 void ProfessionsLibrary::displayUnitsAndCosts()
 {
@@ -143,20 +163,35 @@ void ProfessionsLibrary::displayUnitsAndCosts()
 }
 int ProfessionsLibrary::convertStats(std::string _statName) //znalezc lepsze miejsce
 {
-	if (_statName == "hp_max")return 0;
-	if (_statName == "mana_max")return 1;
-	if (_statName == "ad")return 2;
+	if (_statName == "hp_max")return HP_MAX;
+	if (_statName == "mana_max")return MANA_MAX;
+	if (_statName == "mana_per_round")return MANA_PER_ROUND;
+	if (_statName == "starting_mana")return STARTING_MANA;
+	if (_statName == "ad")return AD;
+	if (_statName == "ar")return AR;
+	if (_statName == "mr")return MR;
+	if (_statName == "s_p_var") return S_P_VAR;
+	return -1;// sprawdzic jak sie zachowuje
 }
 
 int ProfessionsLibrary::getProfessionCost(int _id)
 {
-	return professionsNamesAndCost[_id].second;
+	for (auto confData : professionsNamesAndCost)
+	{
+		if (confData.first == getProfName(_id)) return confData.second;
+		
+	}
 }
 
 int ProfessionsLibrary::convertProf(std::string _name) //znalezc lepsze miejsce
 {
-	if (_name == "Mage")return 0;
-	if (_name == "Warrior")return 1;
-	if (_name == "Ork")return 2;
+	if (_name == "Mage")return MAGE;
+	if (_name == "Sniper")return SNIPER;
+	if (_name == "Warrior")return WARRIOR;
+	if (_name == "Pope")return POPE;
+	if (_name == "Archer")return ARCHER;
+	if (_name == "Druid")return DRUID;
+	if (_name == "Catcher")return CATCHER;
+	throw "Invalid_Name";
 }
 
