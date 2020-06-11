@@ -14,9 +14,13 @@ class ProfessionsFactory
 
 public:
 	ProfessionsFactory();
+	~ProfessionsFactory();
+	void init();
 	Profession* createUnit(int _id);
 	ProfessionsLibrary* getProfLibrary();
 	void displayUnitsAndCosts();
 	int getCost(int _id);
 
 };
+
+//ta klasa odpowiedzialna jest za tworzenie jednostek

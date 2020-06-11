@@ -1,6 +1,14 @@
 #include "Warrior.h"
-#include <vector>
 
+Warrior::Warrior(std::map<int, double> _stats)
+{
+	stats = _stats;
+	displayChar = 'W';
+	name = "Warrior";
+	current_hp = getStat(HP_MAX);
+	alive = true;
+	current_mana = getStat(STARTING_MANA);
+}
 std::pair<int, int> Warrior::findCoordToUseSuperPower(char _posData[][BOARD_SIZE])
 {
 	double ultRange = 2.84; // ~2 *sqrt(2)
@@ -13,7 +21,7 @@ std::pair<int, int> Warrior::findCoordToUseSuperPower(char _posData[][BOARD_SIZE
 			if (_posData[i][j] == ' ') continue;
 			if (areMyUnitsDisplayedLower && islower(_posData[i][j])) continue;
 			else if (!areMyUnitsDisplayedLower && isupper(_posData[i][j])) continue;
-			else if (sqrt(pow(position.first - i, 2) - pow(position.second - j, 2) < ultRange)) coordsInRange.push_back(std::make_pair(i, j));//upewnic sie ze to dziala
+			else if (sqrt(pow(position.first - i, 2) - pow(position.second - j, 2) < ultRange)) coordsInRange.push_back(std::make_pair(i, j));
 		}
 	}
 	if (coordsInRange.empty()) return std::make_pair(-1, -1); //nie ma nic w zasiegu 
@@ -26,17 +34,8 @@ std::pair<int, int> Warrior::findCoordToUseSuperPower(char _posData[][BOARD_SIZE
 	return coordToAttack;
 }
 
-Warrior::Warrior(std::map<int, double> _stats)
-{
-	stats = _stats;
-	displayChar = 'W';
-	name = "Warrior";
-	current_hp = getStat(HP_MAX);
-	alive = true;
-}
-//warroir skacze w zasiegu dwoch kratek na najblizszy cel , zadaje obrazenia i stunnuje
-//stun sie nie przedluza, jesli bedziemy grali samymi warriorami to stunowanie tej samej jednostki
-//w jednej turze zada jej damage ale nie spowoduje ze bedzie zestunnowana przez 2 tury
+
+
 bool Warrior::useSuperPower(std::vector<Profession*> _myPlayerUnits, std::vector<Profession*> _enemyPlayerUnits, char _posData[][10], std::vector<std::string>& _gameLOG)
 {
 	std::pair<int, int> coordToAttack = findCoordToUseSuperPower(_posData);

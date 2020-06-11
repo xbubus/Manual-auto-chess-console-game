@@ -1,5 +1,4 @@
 #include "Archer.h"
-#include <vector>
 
 Archer::Archer(std::map<int, double> _stats)
 {
@@ -8,7 +7,7 @@ Archer::Archer(std::map<int, double> _stats)
 	name = "Archer";
 	current_hp = getStat(HP_MAX);
 	alive = true;
-	current_mana = getStat(MANA_MAX);
+	current_mana = getStat(STARTING_MANA);
 }
 
 bool Archer::useSuperPower(std::vector<Profession*> _myPlayerUnits, std::vector<Profession*> _enemyPlayerUnits, char _posData[][BOARD_SIZE], std::vector<std::string>& _gameLOG)//moze zaatakowac wlasne jednostki
@@ -24,10 +23,11 @@ bool Archer::useSuperPower(std::vector<Profession*> _myPlayerUnits, std::vector<
 	}
 	
 	_gameLOG.push_back(getPlayerString()+": "+name+" "+getDisplayCoords(position)+" used Arrow Shower on "+getDisplayCoords(coordsToAttack) + "\n");
+	current_mana = 0;
 	return true;
 }
 
-std::pair<int, int> Archer::findTheBestCoordToUseSuperPower(char _posData[][10])
+std::pair<int, int> Archer::findTheBestCoordToUseSuperPower(char _posData[][BOARD_SIZE])
 {
 	std::pair <int, int> bestCoords;
 	int bestValue = -20; //-20 to jakas wartosc inicjalizacyjna, nie ma wiekszego znaczenia jaka bedzie dokladnie,byle by mniejsza od zera

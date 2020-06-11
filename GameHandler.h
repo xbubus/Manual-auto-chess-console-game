@@ -1,41 +1,46 @@
 #pragma once
-
-#include <vector>
 #include "Player.h"
-
 #include "ProfessionsFactory.h"
 class GameHandler
 {
-
-	const int size = BOARD_SIZE;
-	char positionData[BOARD_SIZE][BOARD_SIZE];
+	char positionData[BOARD_SIZE][BOARD_SIZE];//przechowuje tutaj znaki do wyswietlania jednostek na planszy
 	std::vector<Player*> players;
 	int playerid;
-	Profession* professionBoardData[BOARD_SIZE][BOARD_SIZE];// 
+	Profession* professionBoardData[BOARD_SIZE][BOARD_SIZE];
 	int roundsCounter;
 	ProfessionsFactory* pf;
 	int linesInDisplayBoard;
 	std::vector<std::string> gameLOG;
-public:
-	GameHandler();
+	/////////////////////////////////////
 	void displayBoard();
-	void createPlayer();
 	void clearBoard();
-	void updatePositionData();
-	void test();
+	void updatePositionData(); //po ruchu trzeba odswiezyc dane, jesli jednostka zmienila poycje/umarla powinna nie byc wyswietlana
+	void displayAllplayersUnitsAndBasicStats();//wyswietlanie podstawowych statystyk i po³o¿enia kazdej jednostki
+	void displayLog(); //wyswietlanie Logu gry, 5 ostatnich ruchów
+
+	void createPlayer();
 	void askPlayerToBuyUnits(Player* _p);
 	void putAllPlayerUnitsOnBoard(Player* _p);
-	std::pair<int,int> askPlayersForCordsToPutUnit();
+	std::pair<int, int> askPlayersForCordsToPutUnit();
 
-	void doSomethingWithUnit(Profession* _u, Player* _p);
-	void updateAllUnitsStatsAfterRound(); // przyrost many co runde dla jednostek itp
-	void manageGame();
+	void updateAllUnitsStatsAfterRound(); //przyrost many co runde dla jednostek itp
+	bool checkIfPlayersUnitsAreAlive(); //sprawdzam czy wszystkie jednostki jednego z graczy s¹ martwe, jesli tak to gra siê konczy
 
-	void checkIfPlayersUnitsAreAlive();//wyjebac
-
-	void displayAllplayersUnitsAndBasicStats();
-	void displayLog();
+	template<typename T>
+	void destroyVector(std::vector<T>& _v) //metoda do usuwania dynamicznej pamieci w wektorze
+	{
+		while (!_v.empty()) {
+			delete _v.back();
+			_v.pop_back();
+		}
+	}
+public:
+	GameHandler();
+	~GameHandler();
+	GameHandler(const GameHandler& _copy) = delete; //zasada trzech
+	GameHandler operator=(GameHandler& _other) = delete; //zasada trzech
+	void createProfessionsFactory();
+	void manageGame(); //glowna metoda do zarzadzania gra
+	void resetData();
 	
-	
-
 };

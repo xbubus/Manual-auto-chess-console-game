@@ -5,10 +5,21 @@
 ProfessionsFactory::ProfessionsFactory()
 {
 	library = new ProfessionsLibrary;
+	
+}
+
+ProfessionsFactory::~ProfessionsFactory()
+{
+	delete library;
+}
+
+void ProfessionsFactory::init()
+{
 	library->loadDataFromFile();
 	library->findNamesAndCosts();
 	library->setupProfessionsStats();
 }
+
 
 Profession* ProfessionsFactory::createUnit(int _id)
 {
@@ -17,35 +28,29 @@ Profession* ProfessionsFactory::createUnit(int _id)
 	switch (_id)
 	{
 	case MAGE:
-	//	std::cout << _id << "\n";
 		temp = library->getProfessionData(MAGE);
 		return new Mage(temp);
 	case WARRIOR:
-	//	std::cout << _id << "\n";
 		temp = library->getProfessionData(WARRIOR);
 		return new Warrior(temp);
 	case DRUID:
-	//	std::cout << _id << "\n";
 		temp = library->getProfessionData(DRUID);
 		return new Druid(temp);
 	case ARCHER:
-	//	std::cout << _id << "\n";
 		temp = library->getProfessionData(ARCHER);
 		return new Archer(temp);
 	case CATCHER:
-	//	std::cout << _id << "\n";
 		temp = library->getProfessionData(CATCHER);
 		return new Catcher(temp);
 	case SNIPER:
-	//	temp = library->getProfessionData(SNIPER);
+		temp = library->getProfessionData(SNIPER);
 		return new Sniper(temp);
 	case POPE:
-	//	std::cout << _id << "\n";
+
 		temp = library->getProfessionData(POPE);
 		return new Pope(temp);
 	default:
-		std::cout << "Invaid ID\n"; //wyjatek?
-		return nullptr;
+		return nullptr; 
 
 	}
 }

@@ -1,5 +1,4 @@
 #include "Druid.h"
-#include <vector>
 
 Druid::Druid(std::map<int, double> _stats)
 {
@@ -8,6 +7,7 @@ Druid::Druid(std::map<int, double> _stats)
 	name = "Druid";
 	current_hp = getStat(HP_MAX);
 	alive = true;
+	current_mana = getStat(STARTING_MANA);
 }
 
 bool Druid::useSuperPower(std::vector<Profession*> _myPlayerUnits, std::vector<Profession*> _enemyPlayerUnits, char _posData[][BOARD_SIZE], std::vector<std::string>& _gameLOG)

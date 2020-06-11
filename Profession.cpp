@@ -17,12 +17,10 @@ Profession* Profession::findFarthestEnemyUnit(std::vector<Profession*> _enemyPla
 	}
 	return farthest;
 }
-
 bool Profession::areMyPlayerUnitsDisplayedLower()
 {
 	return islower(getDisplayChar());
 }
-
 std::string Profession::getPlayerString()
 {
 	std::string playerString;
@@ -32,68 +30,43 @@ std::string Profession::getPlayerString()
 	return playerString;
 }
 
-std::string Profession::getDisplayCoords(std::pair<int, int> _coords)
-{
-	std::stringstream coordsToPrint;
-	coordsToPrint << _coords;
-	return coordsToPrint.str();
-}
-
-Profession::Profession()
-{
-	//possibleMoves.push_back(std::make_pair(0, 0)); //trzeba jakos zainicjalizowac
-	
-}
-
 double Profession::getStat(int  _id)
 {
 	return stats[_id];
-		
-}
 
+}
 bool Profession::getStunned()
 {
 	return stunned;
 }
-
 void Profession::setStunned(bool _stunned)
 {
 	stunned = _stunned;
 }
-
 void Profession::setPosition(std::pair<int, int> _pos)
 {
 	position = _pos;
-	//std::cout << "Possision ok";
 }
 std::pair<int, int> Profession::getPosition()
 {
 	return position;
 }
-
-
-
 char Profession::getDisplayChar()
 {
 	return displayChar;
 }
-
 void Profession::setDisplayChar(char _c)
 {
 	displayChar = _c;
 }
-
 void Profession::setCurrentHP(int _hp)
 {
 	current_hp = _hp;
 }
-
-
 void Profession::attack(Profession* _profToAttack)
 {
 	_profToAttack->takeDamage(getStat(AD));
 }
-
 void Profession::takeDamage(int _damage) 
 {
 	if (!alive)return;
@@ -105,29 +78,24 @@ void Profession::takeDamage(int _damage)
 	}
 	
 }
-
 bool Profession::isAlive()
 {
 	return alive;
 }
-
 void Profession::setAlive(bool _alive)
 {
 	alive = _alive;
 }
-
 void Profession::updateStatsAfterRound()
 {
 	
 	current_mana += getStat(MANA_PER_ROUND);
 	if (current_mana > getStat(MANA_MAX)) current_mana = getStat(MANA_MAX);
 }
-
 std::string Profession::getName()
 {
 	return name;
 }
-
 void Profession::findPossibleMoves(char _posData[][BOARD_SIZE])
 {
 	possibleMoves.clear();
@@ -135,9 +103,9 @@ void Profession::findPossibleMoves(char _posData[][BOARD_SIZE])
 	int posX = position.first;
 	int posY = position.second;
 
-	for (int i = 0; i < BOARD_SIZE; i++) //define board size
+	for (int i = 0; i < BOARD_SIZE; i++) 
 	{
-		for (int j = 0; j < BOARD_SIZE; j++) //define board size
+		for (int j = 0; j < BOARD_SIZE; j++) 
 		{
 			double dist = sqrt(((i - posX) * (i - posX)) + ((j - posY) * (j - posY)));
 			if (dist <= range&&_posData[i][j]==' ')
@@ -147,11 +115,7 @@ void Profession::findPossibleMoves(char _posData[][BOARD_SIZE])
 		}
 	}
 	possibleMoves.push_back(position);
-
-
-
 }
-
 void Profession::displayPossibleMoves()
 {
 	std::cout << "Possible coords to move:\n";
@@ -162,7 +126,6 @@ void Profession::displayPossibleMoves()
 	}
 	std::cout << "\n";
 }
-
 bool Profession::checkIfValidMove(std::pair<int, int> _cords)
 {
 	for (auto cord : possibleMoves)
@@ -171,27 +134,11 @@ bool Profession::checkIfValidMove(std::pair<int, int> _cords)
 	}
 	return false;
 }
-
 bool Profession::checkIfValidIdToAttack(int _id)
 {
 	if (_id >= 0 && _id < possibleAttack.size()) return true;
 	return false;
 }
-
-void Profession::move(std::pair<int, int> _pos)
-{
-	for (auto cord : possibleMoves)
-	{
-		if (cord.first == _pos.first && cord.second == _pos.second)
-		{
-			setPosition(_pos);
-			return;
-		}
-	}
-	std::cout << "Cannot move here\n";
-
-}
-
 bool Profession::findPossibleCordsToAttack(char _posData[][BOARD_SIZE], int _id)
 {
 	possibleAttack.clear();
@@ -199,9 +146,9 @@ bool Profession::findPossibleCordsToAttack(char _posData[][BOARD_SIZE], int _id)
 	int posX = position.first;
 	int posY = position.second;
 	bool temp=false;
-	for (int i = 0; i < BOARD_SIZE; i++) //define board size
+	for (int i = 0; i < BOARD_SIZE; i++)
 	{
-		for (int j = 0; j < BOARD_SIZE; j++) //define board size
+		for (int j = 0; j < BOARD_SIZE; j++) 
 		{
 			double dist = sqrt(((i - posX) * (i - posX)) + ((j - posY) * (j - posY)));
 			if (dist <= range && _posData[i][j] != ' ')
@@ -217,43 +164,39 @@ bool Profession::findPossibleCordsToAttack(char _posData[][BOARD_SIZE], int _id)
 	}
 	return temp;
 }
-
 void Profession::displayPossibleAttack()
 {
 	std::cout << "Possible coords to attack:\n";
 	int i = 0;
 	for (auto cord : possibleAttack)
 	{
-		std::cout << "ID: "<<i++<<" [" << cord.first << "," << cord.second << "]  ";
+		std::cout << "ID: "<<i++<<cord<<" ";
 	
 
 	}
 	std::cout << "\n";
 }
-
 std::pair<int, int> Profession::getPossibleAttackCords(int _id)
 {
 	return possibleAttack[_id];
 }
-
 int Profession::getCurrentHP()
 {
 	return current_hp;
 }
-
 int Profession::getCurrentMana()
 {
 	return current_mana;
 }
-
 void Profession::setCurrentMana(int _mana)
 {
 	current_mana = _mana;
 }
+std::string Profession::getDisplayCoords(std::pair<int, int> _coords)
+{
+	std::stringstream coordsToPrint;
+	coordsToPrint << _coords;
+	return coordsToPrint.str();
+}
 
-//bool Profession::useSuperPower(std::vector<Profession*>_myPlayerUnits, std::vector<Profession*> _enemyPlayerUnits, char _posData[][10])
-//{
-//	std::cout << "I am not a legit unit\n";
-//	return false;
-//}
 

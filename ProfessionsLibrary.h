@@ -1,24 +1,13 @@
 #pragma once
-#include <string>
-#include <vector>
-#include <iostream>
-#include  <sstream>
-#include  <map>
-#include <fstream>
 #include "Profession.h"
 
 
-
+//#define DEBUG //odkomentowac w celu sprawdzenia poprawnosci wczytanych statow, 
 
 
 class ProfessionsLibrary {
-	std::stringstream professionsData;
-	std::vector<std::pair <std::string, int>> professionsNamesAndCost;
-
-
-	std::vector<std::pair <std::string,std::vector< std::pair <std::string,double>>>> professionsNamesAndData; //stary sposob, usunac jak nowy okaze sie ok
-	
-	
+	std::stringstream professionsData; //dane z pliku
+	std::vector<std::pair <std::string, int>> professionsNamesAndCost; //wektor przechowuj¹cy nazwe profesji i jej koszt
 	std::map <int, std::map<int, double >> professionsConfig; //mapa wszystkich statow profesji zczytana z pliku
 
 
@@ -29,16 +18,13 @@ public:
 	void findNamesAndCosts();
 	void setupProfessionsStats();
 	void displayStats();
-	Profession* makeUnit(std::string _name);
 	std::map<int, double > getProfessionData(int _id);
 	std::string getProfName(int _id);
 	void displayUnitsAndCosts();
 	int convertStats(std::string _statName);
 	int getProfessionCost(int _id);
-
-
-	int convertProf(std::string _name);
+    int convertProf(std::string _name);
 	
 };
 
-
+//klasa jest odpowiedzialna za zczytanie statow z pliku i zmapowanie ich

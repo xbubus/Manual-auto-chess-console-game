@@ -1,5 +1,15 @@
 #include "Catcher.h"
-#include <vector>
+
+
+Catcher::Catcher(std::map<int, double> _stats)
+{
+	stats = _stats;
+	displayChar = 'C';
+	name = "Catcher";
+	current_hp = getStat(HP_MAX);
+	alive = true;
+	current_mana = getStat(STARTING_MANA);
+}
 
 std::pair<int, int> Catcher::findFreePositionNearMe(char _posData[][BOARD_SIZE])
 {
@@ -39,15 +49,6 @@ std::pair<int, int> Catcher::findFreePositionNearMe(char _posData[][BOARD_SIZE])
 	return nearest; //jesli nie ma wolnego miejsca z przodu zwracam jakies miejsce z tylu, jesli nie ma zadnego zwracam -1,-1
 }
 
-Catcher::Catcher(std::map<int, double> _stats)
-{
-	stats = _stats;
-	displayChar = 'C';
-	name = "Catcher";
-	current_hp = getStat(HP_MAX);
-	alive = true;
-	current_mana = getStat(MANA_MAX);
-}
 
 bool Catcher::useSuperPower(std::vector<Profession*> _myPlayerUnits, std::vector<Profession*> _enemyPlayerUnits, char _posData[][BOARD_SIZE], std::vector<std::string>& _gameLOG)
 {

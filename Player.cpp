@@ -1,9 +1,5 @@
 #include "Player.h"
-#include "Profession.h"
-#include <cctype>
-
-
-
+//motedy publiczne
 Player::Player(int _id)
 {
 	id = _id;
@@ -16,22 +12,62 @@ void Player::buyUnit(Profession* _unit,int _cost)
 	units.push_back(_unit);
 	gold = gold - _cost;
 }
-
-
-std::vector<Profession*> Player::getUnits()
+std::vector<Profession*>& Player::getUnits()
 {
 	return units;
 }
+int Player::getID()
+{
+	return id;
+}
+int Player::getGold()
+{
+	return gold;
+}
+void Player::doSomethingWithUnit(Profession* _myUnit, char _posData[][BOARD_SIZE], Profession* _boardData[][BOARD_SIZE], std::vector<Profession*> _myPlayerUnits, std::vector<Profession*> _enemyPlayerUnits, std::vector<std::string>& _gameLOG)
+{
+	int choice = 0;
+	bool madeValidMove = false;
+	std::cout <<name<< ": Unit: " << _myUnit->getName() << " on coords: " << _myUnit->getPosition() << std::endl;// _myUnit->getPosition().first << "," << _myUnit->getPosition().second << std::endl; //sprobowac napisac operator do wysietlania paira
+	std::cout << "1-> Move \n2-> Attack \n3-> Use superpower\n4-> Wait\n";
+	while (!madeValidMove)
+	{
+
+		std::cin >> choice;
+
+		switch (choice)
+		{
+		case 1:
+			madeValidMove = moveUnit(_myUnit, _posData, _gameLOG);
+			break;
+		case 2:
+			madeValidMove = attackUnit(_myUnit, _posData, _boardData, _gameLOG);
+			break;
+		case 3:
+
+			madeValidMove = useSuperPower(_myUnit, _myPlayerUnits, _enemyPlayerUnits, _posData, _gameLOG);
 
 
-bool Player::moveUnit(Profession* _myUnit, char _posData[][10], std::vector<std::string>& _gameLOG)
+			break;
+		case 4:
+			madeValidMove = true;
+			_gameLOG.push_back(name + ": " + _myUnit->getName() + " " + _myUnit->getDisplayCoords(_myUnit->getPosition()) + " didnt take any action\n");
+			break;
+		default:
+			std::cout << "Invalid choice, try again\n";
+			break;
+		}
+	}
+}
+//metody prywatne
+bool Player::moveUnit(Profession* _myUnit, char _posData[][BOARD_SIZE], std::vector<std::string>& _gameLOG)
 {
 	bool finished = false;
 	std::pair<int, int>startCoords = _myUnit->getPosition();
 	int currX = startCoords.first;
 	int currY = startCoords.second;
 	_myUnit->findPossibleMoves(_posData);
-	std::cout << "Use arrows to move your unit\npress enter when finished\n\n";
+	std::cout << "Use arrows to move your unit\nPress enter when finished\n\n";
 
 	while (!finished)
 	{
@@ -86,23 +122,18 @@ bool Player::moveUnit(Profession* _myUnit, char _posData[][10], std::vector<std:
 		}
 	}
 
-	if (startCoords == _myUnit->getPosition()) return false;
+	if (startCoords == _myUnit->getPosition())
+	{
+		std::cout << "You are on the same position.\nChoose action again\n";
+		return false;
+	}
 
 	_gameLOG.push_back(name + ": " + _myUnit->getName() + " moved from " + _myUnit->getDisplayCoords(startCoords) + " to " + _myUnit->getDisplayCoords(_myUnit->getPosition()) + "\n");
 	return true;
 	
 		
 }
-template <typename T>
-std::string to_string_with_precision_0(const T a_value) //gdzie to dac
-{
-	std::ostringstream out;
-	int n = 0;
-	out.precision(n);
-	out << std::fixed << a_value;
-	return out.str();
-}
-bool Player::attackUnit(Profession* _myUnit, char _posData[][10], Profession* _boardData[][10], std::vector<std::string>& _gameLOG)
+bool Player::attackUnit(Profession* _myUnit, char _posData[][BOARD_SIZE], Profession* _boardData[][BOARD_SIZE], std::vector<std::string>& _gameLOG)
 {
 
 	bool isThereUnitToAttack = false;
@@ -110,7 +141,7 @@ bool Player::attackUnit(Profession* _myUnit, char _posData[][10], Profession* _b
 
 	if (!isThereUnitToAttack)
 	{
-		std::cout << "There is no unit to attack in your range!\n";
+		std::cout << "There is no unit to attack in your range!\nChoose action again\n";
 		return false;
 	}
 	_myUnit->displayPossibleAttack();
@@ -132,62 +163,14 @@ bool Player::attackUnit(Profession* _myUnit, char _posData[][10], Profession* _b
 	}
 
 }
-
-
-
-bool Player::useSuperPower(Profession* _myUnit, std::vector<Profession*> _myPlayerUnits, std::vector<Profession*> _enemyPlayerUnits, char _posData[][10], std::vector<std::string>& _gameLOG)
+bool Player::useSuperPower(Profession* _myUnit, std::vector<Profession*> _myPlayerUnits, std::vector<Profession*> _enemyPlayerUnits, char _posData[][BOARD_SIZE], std::vector<std::string>& _gameLOG)
 {
 	if (_myUnit->getCurrentMana() < _myUnit->getStat(MANA_MAX))
 	{
-		std::cout << "Not enough mana\n";
+		std::cout << "Not enough mana\nChoose action again\n";
 		return false;
 	}
-	return _myUnit->useSuperPower(_myPlayerUnits, _enemyPlayerUnits, _posData,_gameLOG);
+	bool temp= _myUnit->useSuperPower(_myPlayerUnits, _enemyPlayerUnits, _posData,_gameLOG);
+	if (temp == false)std::cout << "Your Super Power cannot be used.\nChoose action again\n";
+	return temp;
 }
-
-int Player::getID()
-{
-	return id;
-}
-
-int Player::getGold()
-{
-	return gold;
-}
-
-void Player::doSomethingWithUnit(Profession* _myUnit, char _posData[][10], Profession* _boardData[][10], std::vector<Profession*> _myPlayerUnits, std::vector<Profession*> _enemyPlayerUnits, std::vector<std::string>& _gameLOG)
-{
-	int choice = 0;
-	bool madeValidMove = false;
-	std::cout << "Unit: " << _myUnit->getName() << " on coords: " << _myUnit->getPosition().first << "," << _myUnit->getPosition().second << std::endl; //sprobowac napisac operator do wysietlania paira
-	std::cout << "1-> Move \n2-> Attack \n3-> Use superpower\n4-> Wait\n";
-	while (!madeValidMove)
-	{
-		
-		std::cin >> choice;
-
-		switch (choice)
-		{
-		case 1:
-			madeValidMove = moveUnit(_myUnit, _posData, _gameLOG);
-			break;
-		case 2:
-			madeValidMove = attackUnit(_myUnit, _posData, _boardData, _gameLOG);
-			break;
-		case 3:
-		
-				madeValidMove = useSuperPower(_myUnit,_myPlayerUnits, _enemyPlayerUnits,_posData,_gameLOG);
-			
-				
-			break;
-		case 4:
-			madeValidMove = true;
-			_gameLOG.push_back(name + ": " + _myUnit->getName() + " " + _myUnit->getDisplayCoords(_myUnit->getPosition()) + " didnt take any action\n");
-			break;
-		default:
-			std::cout << "Invalid choice, try again\n";
-			break;
-		}
-	}
-}
-
