@@ -1,0 +1,10 @@
+Game aborted
+P2: Catcher [7,8] used Grab on Pope [6,7]
+P2: Catcher [7,7] used Grab on Sniper [6,6]
+P2: Catcher [8,8] used Grab on Pope [8,7]
+P2: Catcher [9,9] used Grab on Pope [9,8]
+P1: Sniper [3,3] attacked Catcher [7,7]
+P1: Pope moved from [2,2] to [2,3]
+P1: Pope moved from [1,1] to [1,2]
+P2 Catcher [9,9] Catcher [8,8] Catcher [7,7] Catcher [7,8] 
+P1 Pope [1,1] Pope [2,2] Sniper [3,3] 

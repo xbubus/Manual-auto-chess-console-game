@@ -1,5 +1,5 @@
 #include "GameHandler.h"
-#include <iostream>
+
 //metody publiczne
 GameHandler::GameHandler()
 {
@@ -44,6 +44,7 @@ void GameHandler::manageGame()
 	{
 		for (auto player : players)
 		{
+			if (!gameON) break;
 			for (auto unit : player->getUnits())
 			{
 				gameON = checkIfPlayersUnitsAreAlive();
@@ -58,14 +59,14 @@ void GameHandler::manageGame()
 					displayBoard();
 					displayAllplayersUnitsAndBasicStats();
 					displayLog();
-					player->doSomethingWithUnit(unit, positionData, professionBoardData, player->getUnits(), players[abs(player->getID() - 1)]->getUnits(), gameLOG); //abs(player->getID()-1) daje przeciwnego playera, jesli player ma id 0 to przeciwny ma abs(0-1),jesli 1 to abs(1-1)
+					player->doSomethingWithUnit(unit, positionData, professionBoardData, player->getUnits(), players[abs(player->getID() - 1)]->getUnits(), gameLOG,gameON); //abs(player->getID()-1) daje przeciwnego playera, jesli player ma id 0 to przeciwny ma abs(0-1),jesli 1 to abs(1-1)
 					updatePositionData();
 					system("cls");
 
 
 
 				}
-
+				if (!gameON) break;//konieczne
 			}
 
 		}
@@ -77,6 +78,7 @@ void GameHandler::manageGame()
 	displayBoard();
 	displayAllplayersUnitsAndBasicStats();
 	displayLog();
+	printGameLogToFileAndDelete();
 	std::cout << "<----- GAME OVER ----->\n";
 	system("pause");
 	return;
@@ -295,6 +297,14 @@ void GameHandler::putAllPlayerUnitsOnBoard(Player* _p)
 		system("cls");
 
 	}
+	std::stringstream allplayerUnits;
+	allplayerUnits<<"P" <<(_p->getID() + 1) << " ";
+	for (auto unit : _p->getUnits())
+	{
+		allplayerUnits << unit->getName() << " " << unit->getPosition() << " ";
+	}
+	allplayerUnits << "\n";
+	gameLOG.push_back(allplayerUnits.str());
 }
 std::pair<int, int> GameHandler::askPlayersForCordsToPutUnit()
 {
@@ -331,10 +341,34 @@ bool GameHandler::checkIfPlayersUnitsAreAlive()
 			}
 		
 		}
-		if (temp == false)return temp;
+		if (temp == false)
+		{
+			gameLOG.push_back("Game Finished\n");
+			return temp;
+			
+		}
 	}
 	return temp;
 	
+}
+void GameHandler::printGameLogToFileAndDelete() 
+{
+	const time_t time = std::time(nullptr);
+	std::ostringstream oss;
+	oss<< std::put_time(std::localtime(&time), "%F_%T");
+	std::string fileName = "LOG_" + oss.str() + ".txt";
+	std::replace(fileName.begin(), fileName.end(), ':', ';'); // w nazwie pliku nie moze byc :
+	std::ofstream file(fileName);
+	if (file.is_open())
+	{
+		while (!gameLOG.empty())
+		{
+			file << gameLOG.back();
+			gameLOG.pop_back();
+		}
+
+		file.close();
+	}
 }
 void GameHandler::updateAllUnitsStatsAfterRound()
 {

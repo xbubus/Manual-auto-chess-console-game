@@ -24,16 +24,16 @@ int Player::getGold()
 {
 	return gold;
 }
-void Player::doSomethingWithUnit(Profession* _myUnit, char _posData[][BOARD_SIZE], Profession* _boardData[][BOARD_SIZE], std::vector<Profession*> _myPlayerUnits, std::vector<Profession*> _enemyPlayerUnits, std::vector<std::string>& _gameLOG)
+void Player::doSomethingWithUnit(Profession* _myUnit, char _posData[][BOARD_SIZE], Profession* _boardData[][BOARD_SIZE], std::vector<Profession*> _myPlayerUnits, std::vector<Profession*> _enemyPlayerUnits, std::vector<std::string>& _gameLOG,bool& _gameON)
 {
 	int choice = 0;
 	bool madeValidMove = false;
 	std::cout <<name<< ": Unit: " << _myUnit->getName() << " on coords: " << _myUnit->getPosition() << std::endl;// _myUnit->getPosition().first << "," << _myUnit->getPosition().second << std::endl; //sprobowac napisac operator do wysietlania paira
-	std::cout << "1-> Move \n2-> Attack \n3-> Use superpower\n4-> Wait\n";
+	std::cout << "1-> Move \n2-> Attack \n3-> Use superpower\n4-> Wait\n99->Abort playing\n";
 	while (!madeValidMove)
 	{
 
-		std::cin >> choice;
+		choice = getValidInput<int>();
 
 		switch (choice)
 		{
@@ -52,6 +52,11 @@ void Player::doSomethingWithUnit(Profession* _myUnit, char _posData[][BOARD_SIZE
 		case 4:
 			madeValidMove = true;
 			_gameLOG.push_back(name + ": " + _myUnit->getName() + " " + _myUnit->getDisplayCoords(_myUnit->getPosition()) + " didnt take any action\n");
+			break;
+		case 99:
+			_gameON = false;
+			_gameLOG.push_back("Game aborted\n");
+			madeValidMove = true;
 			break;
 		default:
 			std::cout << "Invalid choice, try again\n";

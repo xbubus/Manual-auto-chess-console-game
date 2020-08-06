@@ -1,0 +1,17 @@
+Game aborted
+P2: Warrior [7,7] didnt take any action
+P1: Warrior [1,1] didnt take any action
+P2: Warrior [7,7] didnt take any action
+P1: Warrior [1,1] didnt take any action
+P2: Warrior [7,7] didnt take any action
+P1: Warrior [1,1] didnt take any action
+P2: Warrior [7,7] didnt take any action
+P1: Warrior [1,1] didnt take any action
+P2: Warrior [7,7] didnt take any action
+P1: Warrior [1,1] didnt take any action
+P2: Warrior [7,7] didnt take any action
+P1: Warrior [1,1] didnt take any action
+P2: Warrior [7,7] didnt take any action
+P1: Warrior [1,1] didnt take any action
+P2 Warrior [7,7] 
+P1 Warrior [1,1] 

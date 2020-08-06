@@ -1,8 +1,10 @@
+
 #include "GameHandler.h"
 #include "vld.h"
+// jesli projekt nie chce sie skompilowac prosze kliknac "kompiluj ponownie rozwiazanie"
 int main()
-
 {
+	srand(time(NULL));
 	bool playing = true;
 	int choice = 0;
 	GameHandler* g=new GameHandler();
@@ -19,10 +21,11 @@ int main()
 		delete g;
 		exit(0); //brak wyciekow wszystko wczesniej zostalo usuniete
 	}
+
 	while (playing)
 	{
 		std::cout << "1->Start new game\n2->Exit\n";
-		choice =getValidInput <int>();
+		choice = getValidInput <int>();
 		switch (choice)
 		{
 		case 1:
@@ -39,6 +42,9 @@ int main()
 			break;
 		}
 	}
+	
+
+
 	delete g;
 }
 
@@ -48,8 +54,11 @@ int main()
 //Z zalozenia uzytkownik nie ma dostepu do pliku ze statystykami, nie moze ich edytowac, tzn. ze w skladni pliku nie moze byc bledow.
 //Aby wszystko wyswietlalo sie poprawnie nie wolno korzystac z starszej wersji konsoli. Zalaczylbym screena jak powinno wygladac poprawne wyswietlanie, ale
 //za duzo by wazylo.
+
 //Opisy co robi¹ postacie znajduja sie w plikach .h
 //Gra jest NIE zbalansowana, pewne kompozycje mog¹ okazaæ siê znacznie mocniejsze od innych. Ciezko jest idealnie zbalansowac taka gre bez zadnych danych,na slepo
+//jesli mialbym do dyspozycji bardzo duzo gameLogow mozna by bylo je przanalizowac- jak czesto wybierana jest dana postac,kompozycja, co wygrywa itp.
+// i na tej podstawie oslabic/wzmocnic jednostki
 
 //ZALOZENIA:
 //Gre chcialem napisac tak aby:

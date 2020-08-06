@@ -47,7 +47,7 @@ bool Warrior::useSuperPower(std::vector<Profession*> _myPlayerUnits, std::vector
 			unit->takeDamage(getStat(S_P_VAR));
 			unit->setStunned(true);
 			_gameLOG.push_back(getPlayerString() + ": " + name + " " + getDisplayCoords(position) + " used Stunning Jump on " + unit->getName() + " " + getDisplayCoords(unit->getPosition())+"\n");
-
+			current_mana = 0;
 			return true;
 		}
 	}

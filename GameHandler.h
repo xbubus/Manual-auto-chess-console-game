@@ -1,6 +1,10 @@
 #pragma once
+#define _CRT_SECURE_NO_WARNINGS //uzywane tylko do localtime
 #include "Player.h"
 #include "ProfessionsFactory.h"
+#include <time.h>
+#include <iomanip>
+#include <algorithm>
 class GameHandler
 {
 	char positionData[BOARD_SIZE][BOARD_SIZE];//przechowuje tutaj znaki do wyswietlania jednostek na planszy
@@ -25,11 +29,14 @@ class GameHandler
 
 	void updateAllUnitsStatsAfterRound(); //przyrost many co runde dla jednostek itp
 	bool checkIfPlayersUnitsAreAlive(); //sprawdzam czy wszystkie jednostki jednego z graczy s¹ martwe, jesli tak to gra siê konczy
+	
+	void printGameLogToFileAndDelete();
 
 	template<typename T>
 	void destroyVector(std::vector<T>& _v) //metoda do usuwania dynamicznej pamieci w wektorze
 	{
-		while (!_v.empty()) {
+		while (!_v.empty())
+		{
 			delete _v.back();
 			_v.pop_back();
 		}

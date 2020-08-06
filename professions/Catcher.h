@@ -9,4 +9,5 @@ public:
 	bool useSuperPower(std::vector<Profession*> _myPlayerUnits , std::vector<Profession*> _enemyPlayerUnits, char _posData[][BOARD_SIZE], std::vector<std::string>& _gameLOG);
 };
 
-//Catcher przyciaga do siebie najdalsza wrog¹ jednostke
+//Catcher przyciaga do siebie najdalsza wrog¹ jednostke 
+//Catcher zaczyna z maksymalna iloscia many

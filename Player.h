@@ -20,7 +20,7 @@ public:
 	std::vector<Profession*>& getUnits();
 	int getID();
 	int getGold();
-	void doSomethingWithUnit(Profession* _myUnit, char _posData[][BOARD_SIZE], Profession* _boardData[][BOARD_SIZE], std::vector<Profession*> myPlayerUnits, std::vector<Profession*> enemyPlayerUnits,std::vector<std::string>& _gameLOG);
+	void doSomethingWithUnit(Profession* _myUnit, char _posData[][BOARD_SIZE], Profession* _boardData[][BOARD_SIZE], std::vector<Profession*> myPlayerUnits, std::vector<Profession*> enemyPlayerUnits,std::vector<std::string>& _gameLOG, bool& _gameON);
 
 
 };
